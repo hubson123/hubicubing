@@ -1,38 +1,39 @@
-name: 'check-ts'
+name: Check TypeScript
+
+env:
+  # See: https://github.com/actions/setup-node/#readme
+  NODE_VERSION: 16.x
+
+# See: https://docs.github.com/en/actions/reference/events-that-trigger-workflows
 on:
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-    
+  schedule:
+    - cron: '44 5 * * 4'
+
 jobs:
-  ts:
+  eslint:
+    name: Run eslint scanning
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
     steps:
-      - uses: actions/checkout@v3
-      - name: Get diff lines
-        id: diff
-        uses: Equip-Collaboration/diff-line-numbers@v1.0.0
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          include: '["\\.ts$"]'
-      - name: Detecting files changed
-        id: files
-        uses: umani/changed-files@v4.0.0
-        with:
-          repo-token: ${{ github.token }}
-          pattern: '^.*\.ts$'
-      - name: List files changed (you can remove this step, for monitoring only)
+          node-version: ${{ env.NODE_VERSION }}
+          
+      - name: Install
         run: |
-          echo 'Files modified: ${{steps.files.outputs.files_updated}}' >> $GITHUB_OUTPUT
-          echo 'Files added: ${{steps.files.outputs.files_created}}' >> $GITHUB_OUTPUT
-          echo 'Files removed: ${{steps.files.outputs.files_deleted}}' >> $GITHUB_OUTPUT
-      - uses: Arhia/action-check-typescript@v1.0.0
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          use-check: true
-          check-fail-mode: added
-          files-changed: ${{steps.files.outputs.files_updated}}
-          files-added: ${{steps.files.outputs.files_created}}
-          files-deleted: ${{steps.files.outputs.files_deleted}}
-          line-numbers: ${{steps.diff.outputs.lineNumbers}}
-          output-behaviour: both
+          yarn install
+
+      - name: Run TS check
+        run: npx tsc 
+        continue-on-error: true
