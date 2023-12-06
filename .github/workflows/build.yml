@@ -10,17 +10,15 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-  schedule:
-    - cron: '44 5 * * 4'
 
 jobs:
-  checkts:
-    name: Run ts scanning
+  Build:
+    name: Run Build
     runs-on: ubuntu-latest
     permissions:
       contents: read
       security-events: write
-      actions: read
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -29,11 +27,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-
+          
       - name: Install
         run: |
           yarn install
 
-      - name: Run TS check
-        run: npx tsc 
-        continue-on-error: true
+      - name: Run Build phase
+        run: yarn run build 
+        continue-on-error: false
