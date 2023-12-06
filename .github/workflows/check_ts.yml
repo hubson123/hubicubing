@@ -36,4 +36,3 @@ jobs:
           files-deleted: ${{steps.files.outputs.files_deleted}}
           line-numbers: ${{steps.diff.outputs.lineNumbers}}
           output-behaviour: both
-          comment-behaviour: new
