@@ -1,4 +1,4 @@
- name: 'check-ts'
+name: 'check-ts'
 on:
   push:
     branches: [ "master" ]
