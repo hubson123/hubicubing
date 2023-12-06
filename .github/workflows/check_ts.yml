@@ -23,9 +23,9 @@ jobs:
           pattern: '^.*\.ts$'
       - name: List files changed (you can remove this step, for monitoring only)
         run: |
-          echo 'Files modified: ${{steps.files.outputs.files_updated}}'
-          echo 'Files added: ${{steps.files.outputs.files_created}}'
-          echo 'Files removed: ${{steps.files.outputs.files_deleted}}'
+          echo 'Files modified: ${{steps.files.outputs.files_updated}}' >> $GITHUB_OUTPUT
+          echo 'Files added: ${{steps.files.outputs.files_created}}' >> $GITHUB_OUTPUT
+          echo 'Files removed: ${{steps.files.outputs.files_deleted}}' >> $GITHUB_OUTPUT
       - uses: Arhia/action-check-typescript@v1.0.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
