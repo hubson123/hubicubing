@@ -1,43 +1,24 @@
-module.exports = {
-    "env": {
-        "browser": true,
-        "es2021": true,
-        "node": 1
-    },
-    "extends": [
-        "standard-with-typescript",
-        "plugin:react/recommended"
-    ],
-    "overrides": [
-        {
-            "env": {
-                "node": true
-            },
-            "files": [
-                ".eslintrc.{js,cjs}"
-            ],
-            "parserOptions": {
-                "sourceType": "script"
-            }
-        }
-    ],
-    "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module"
-    },
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
     "plugins": [
-        "react"
+      "@typescript-eslint"
     ],
-    "rules": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "rules":{
         "quotes": [2, "single", { "avoidEscape": true }],
-        'max-len': [2, {
-            code: 140,
-            tabWidth: 4,
-            ignoreUrls: true,
-            ignoreComments: false,
-            ignoreRegExpLiterals: true,
-            ignoreStrings: true,
-            ignoreTemplateLiterals: true,
+        "max-len": [2, {
+            "code": 140,
+            "tabWidth": 4,
+            "ignoreUrls": true,
+            "ignoreComments": false,
+            "ignoreRegExpLiterals": true,
+            "ignoreStrings": true,
+            "ignoreTemplateLiterals": true,
         }],
         "@typescript-eslint/consistent-type-imports": "off",
         "@typescript-eslint/consistent-type-definitions": "off",
@@ -57,4 +38,4 @@ module.exports = {
         "@typescript-eslint/strict-boolean-expressions": "off",
         "@typescript-eslint/triple-slash-reference": "off",
     }
-}
+  }
